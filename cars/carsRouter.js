@@ -33,6 +33,21 @@ router.post('/', validateCarData, validateRequestBodyDataTypes, (req, res) => {
     })
 })
 
+router.put('/:id', validateCarData, validateRequestBodyDataTypes, (req, res) => {
+    const { id } = req.params
+    const updates = req.body
+
+    db('cars')
+      .where('id', id)
+      .update(updates)
+      .then(count => {
+        res.status(200).json({message: `updated ${count} records`})
+      })
+      .catch(err => {
+        res.status(err)
+      })
+})
+
 // custom middleware to validate new car data has required fields
 function validateCarData(req, res, next) {
   if (!req.body.VIN) {
