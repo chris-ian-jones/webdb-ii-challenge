@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+router.post('/', validateCarData, (req, res) => {
   const carData = req.body
   db('cars')
     .insert(carData)
@@ -32,5 +32,28 @@ router.post('/', (req, res) => {
       })
     })
 })
+
+// custom middleware to validate new car data has required fields
+function validateCarData(req, res, next) {
+  if (!req.body.VIN) {
+    res.status(400).json({
+      message: 'Invalid Car data, need VIN'
+    })
+  } else if (!req.body.MAKE) {
+    res.status(400).json({
+      message: 'Invalid Car data, need MAKE'
+    })
+  } else if (!req.body.MODEL) {
+    res.status(400).json({
+      message: 'Invalid Car data, need MODEL'
+    })
+  } else if (!req.body.MILEAGE) {
+    res.status(400).json({
+      message: 'Invalid Car data, need MILEAGE'
+    })
+  } else {
+    next()
+  }
+}
 
 module.exports = router
