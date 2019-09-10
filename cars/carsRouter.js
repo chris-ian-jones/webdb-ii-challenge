@@ -48,6 +48,20 @@ router.put('/:id', validateCarData, validateRequestBodyDataTypes, (req, res) => 
       })
 })
 
+router.delete('/:id', (req, res) => {
+  const { id } = req.params
+
+  db('cars')
+  .where('id', id)
+  .del()
+  .then(count => {
+    res.status(200).json({message: `deleted ${count} records`})
+  })
+  .catch(err => {
+    res.status(err)
+  })
+})
+
 // custom middleware to validate new car data has required fields
 function validateCarData(req, res, next) {
   if (!req.body.VIN) {
