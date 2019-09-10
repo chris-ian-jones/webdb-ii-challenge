@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/', validateCarData, (req, res) => {
+router.post('/', validateCarData, validateRequestBodyDataTypes, (req, res) => {
   const carData = req.body
   db('cars')
     .insert(carData)
@@ -50,6 +50,29 @@ function validateCarData(req, res, next) {
   } else if (!req.body.MILEAGE) {
     res.status(400).json({
       message: 'Invalid Car data, need MILEAGE'
+    })
+  } else {
+    next()
+  }
+}
+
+// custom middleware to validate request body data types 
+function validateRequestBodyDataTypes(req, res, next) {
+  if (typeof(req.body.VIN) !== 'string') {
+    res.status(400).json({
+      message: 'Invalid Car data, VIN must be a string'
+    })
+  } else if (typeof(req.body.MAKE) !== 'string') {
+    res.status(400).json({
+      message: 'Invalid Car data, MAKE must be a string'
+    })
+  } else if (typeof(req.body.MODEL) !== 'string') {
+    res.status(400).json({
+      message: 'Invalid Car data, MODEL must be a string'
+    })
+  } else if (typeof(req.body.MILEAGE) !== 'number') {
+    res.status(400).json({
+      message: 'Invalid Car data, MILEAGE must be a number'
     })
   } else {
     next()
