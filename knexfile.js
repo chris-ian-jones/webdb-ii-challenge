@@ -10,6 +10,9 @@ module.exports = {
     },
     useNullAsDefault: true // used for sqlite
   },
+  seeds: {
+    directory: './data/seeds'
+  }
 }
 
 /*

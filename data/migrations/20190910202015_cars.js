@@ -30,11 +30,11 @@ exports.up = function(knex) {
 
     // transmission type
     tbl
-      .string('TRANSMISSION TYPE', 128)
+      .string('TRANSMISSION_TYPE', 128)
 
     //status of the title (clean, salvage, etc.)
     tbl
-      .string('TITLE STATUS', 128)
+      .string('TITLE_STATUS', 128)
   })
 }
 
